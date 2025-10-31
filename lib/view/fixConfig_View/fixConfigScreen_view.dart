@@ -2,6 +2,7 @@ import 'package:fixbuilder/CostomWidget/constWidget.dart';
 import 'package:fixbuilder/CostomWidget/costomtextFeild.dart';
 import 'package:fixbuilder/view/LeagueConfig_View/leagueConfigScreen_view.dart';
 import 'package:fixbuilder/viewModel/fixConfig_vm/fixConfig_vm.dart';
+import 'package:fixbuilder/viewModel/league_vm/leagueVM.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +12,7 @@ class FixconfigscreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final countProvider = Provider.of<FixconfigVm>(context);
+    final leagueProvider = Provider.of<Leaguevm>(context);
     return Scaffold(
       appBar: AppBar(elevation: 1, title: const Text('Create tournament')),
       body: SingleChildScrollView(
@@ -193,6 +195,15 @@ class FixconfigscreenView extends StatelessWidget {
 
         child: InkWell(
           onTap: () {
+            List<String> teams =
+                countProvider.feild
+                    .map((c) => c.text.trim())
+                    .where((name) => name.isNotEmpty)
+                    .toSet()
+                    .toList();
+            print('Team :$teams');
+
+            leagueProvider.generateFixture(teams);
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => LeagueconfigscreenView()),

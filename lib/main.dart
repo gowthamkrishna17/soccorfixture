@@ -1,12 +1,16 @@
 import 'package:fixbuilder/view/fixConfig_View/fixConfigScreen_view.dart';
 import 'package:fixbuilder/viewModel/fixConfig_vm/fixConfig_vm.dart';
+import 'package:fixbuilder/viewModel/league_vm/leagueVM.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => FixconfigVm())],
+      providers: [
+        ChangeNotifierProvider(create: (context) => FixconfigVm()),
+        ChangeNotifierProvider(create: (context) => Leaguevm()),
+      ],
       child: const MyApp(),
     ),
   );
