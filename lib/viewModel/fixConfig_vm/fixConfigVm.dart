@@ -35,6 +35,21 @@ class FixconfigVm extends ChangeNotifier {
 
   bool enblleague = true;
   bool enblknockout = false;
+  bool enblLogo = false;
+
+  bool enbleposter = true;
+
+  togglePosetr() {
+    enbleposter = !enbleposter;
+    print(enbleposter);
+    notifyListeners();
+  }
+
+  toggleLogo() {
+    enblLogo = !enblLogo;
+    print(enblLogo);
+    notifyListeners();
+  }
 
   toggleLeague() {
     if (enblleague = true) {

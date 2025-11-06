@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 class Costomtextfeild extends StatelessWidget {
   final String title;
   final double width;
+  final double height;
   final TextEditingController? controller;
 
   const Costomtextfeild({
     super.key,
+    this.height = 40,
     required this.title,
 
     required this.width,
@@ -19,10 +21,11 @@ class Costomtextfeild extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
+      height: height,
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
-          label: Text(title),
+          label: Text(title, overflow: TextOverflow.ellipsis),
           border: const OutlineInputBorder(),
         ),
       ),
@@ -30,13 +33,13 @@ class Costomtextfeild extends StatelessWidget {
   }
 }
 
-class costomContainer extends StatelessWidget {
+class CostomContainer extends StatelessWidget {
   final String title;
   final VoidCallback? ontap;
   final Color textColor;
   final Color color;
 
-  const costomContainer({
+  const CostomContainer({
     super.key,
     required this.title,
     this.ontap,

@@ -1,7 +1,11 @@
-import 'package:fixbuilder/CostomWidget/constWidget.dart';
-import 'package:fixbuilder/CostomWidget/costomtextFeild.dart';
+import 'package:fixbuilder/CostomWidget/constCheckbox.dart';
+import 'package:fixbuilder/CostomWidget/const_Widget.dart';
+import 'package:fixbuilder/CostomWidget/costomButton.dart';
+import 'package:fixbuilder/CostomWidget/costom_textFeild.dart';
 import 'package:fixbuilder/view/LeagueConfig_View/leagueConfigScreen_view.dart';
-import 'package:fixbuilder/viewModel/fixConfig_vm/fixConfig_vm.dart';
+import 'package:fixbuilder/view/fixConfig_View/leagueTableconfig.dart';
+import 'package:fixbuilder/viewModel/fixConfig_vm/fixConfigVm.dart';
+import 'package:fixbuilder/viewModel/league_vm/leagueTable_vm.dart';
 import 'package:fixbuilder/viewModel/league_vm/leagueVM.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +17,7 @@ class FixconfigscreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     final countProvider = Provider.of<FixconfigVm>(context);
     final leagueProvider = Provider.of<Leaguevm>(context);
+
     return Scaffold(
       appBar: AppBar(elevation: 1, title: const Text('Create tournament')),
       body: SingleChildScrollView(
@@ -37,23 +42,68 @@ class FixconfigscreenView extends StatelessWidget {
               constHeight10,
 
               //time and date
-              Container(
-                height: 170,
-                decoration: BoxDecoration(border: Border.all(width: 1)),
-              ),
+              countProvider.enbleposter
+                  ? Container(
+                    height: 170,
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      border: Border.all(width: 1),
+                    ),
+                  )
+                  : SizedBox(),
 
               //image picker
               constHeight10,
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Costomtextfeild(
-                    title: 'team count',
-                    width: 100,
-                    controller: countProvider.teamCount,
+                  Container(
+                    height: 35,
+                    padding: EdgeInsets.only(left: 10),
+                    decoration: BoxDecoration(border: Border.all(width: 1)),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: Center(
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: 'TeamCount',
+                                hintStyle: TextStyle(
+                                  overflow: TextOverflow.fade,
+                                ),
+                              ),
+                              controller: countProvider.teamCount,
+                            ),
+                          ),
+                        ),
+
+                        IconButton(
+                          onPressed: countProvider.updateCount,
+                          icon: Icon(Icons.check),
+                        ),
+                      ],
+                    ),
                   ),
-                  IconButton(
-                    onPressed: countProvider.updateCount,
-                    icon: Icon(Icons.check),
+
+                  costomCkeckBox(
+                    enable: countProvider.enblLogo,
+                    countProvider: countProvider,
+                    text: 'LOGO',
+                    ontap: countProvider.toggleLogo,
+                    icon: Icons.wrong_location,
+                  ),
+                  constWidth5,
+                  costomCkeckBox(
+                    enable: countProvider.enbleposter,
+                    countProvider: countProvider,
+                    text: 'poster',
+                    icon: Icons.browse_gallery,
+                    ontap: () {
+                      countProvider.togglePosetr();
+                    },
                   ),
                 ],
               ),
@@ -112,30 +162,30 @@ class FixconfigscreenView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            costomContainer(title: 'team'),
-                            costomContainer(title: 'PLAY'),
-                            costomContainer(title: 'WIN'),
-                            costomContainer(title: 'DRAW'),
-                            costomContainer(title: 'LOSE'),
-                            costomContainer(
+                            CostomContainer(title: 'team'),
+                            CostomContainer(title: 'PLAY'),
+                            CostomContainer(title: 'WIN'),
+                            CostomContainer(title: 'DRAW'),
+                            CostomContainer(title: 'LOSE'),
+                            CostomContainer(
                               color:
                                   countProvider.enableGS
                                       ? Colors.transparent
                                       : Colors.grey,
                               title: 'GOAL SCR',
                             ),
-                            costomContainer(
+                            CostomContainer(
                               color:
                                   countProvider.enableGc
                                       ? Colors.transparent
                                       : Colors.grey,
                               title: 'GOAL CONSID',
                             ),
-                            costomContainer(
+                            CostomContainer(
                               color: Colors.red,
                               title: 'GOAL DIF',
                             ),
-                            costomContainer(title: 'POINT'),
+                            CostomContainer(title: 'POINT'),
                           ],
                         ),
                         SizedBox(height: 4),
@@ -154,24 +204,35 @@ class FixconfigscreenView extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   final provider = countProvider.feild[index];
-                  return Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundColor: const Color.fromARGB(255, 87, 190, 17),
-                      ),
-                      Costomtextfeild(
-                        controller: provider,
-                        title: 'Team${index + 1}',
-                        width: 250,
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          countProvider.deleletTeam(index);
-                        },
-                        icon: const Icon(Icons.delete),
-                      ),
-                    ],
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        countProvider.enblLogo
+                            ? CircleAvatar(
+                              radius: 30,
+                              backgroundColor: const Color.fromARGB(
+                                255,
+                                87,
+                                190,
+                                17,
+                              ),
+                            )
+                            : SizedBox(),
+                        Costomtextfeild(
+                          controller: provider,
+                          title: 'Team${index + 1}',
+                          width: countProvider.enblLogo ? 250 : 300,
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            countProvider.deleletTeam(index);
+                          },
+                          icon: const Icon(Icons.delete),
+                        ),
+                      ],
+                    ),
                   );
                 },
               ),
@@ -195,6 +256,13 @@ class FixconfigscreenView extends StatelessWidget {
 
         child: InkWell(
           onTap: () {
+            final names =
+                countProvider.feild
+                    .map((controller) => controller.text)
+                    .toList();
+            context.read<Leaguevm>().generateFixture(names);
+            context.read<VmLeagueTable>().setTeams(names);
+
             List<String> teams =
                 countProvider.feild
                     .map((c) => c.text.trim())
@@ -209,67 +277,9 @@ class FixconfigscreenView extends StatelessWidget {
               MaterialPageRoute(builder: (context) => LeagueconfigscreenView()),
             );
           },
-          child: Container(
-            height: 40,
-            width: 250,
-            margin: EdgeInsets.symmetric(horizontal: 50),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(width: 1),
-              color: Colors.blueGrey,
-            ),
-            child: Center(child: const Text('Continue')),
-          ),
+          child: costomButton(),
         ),
       ),
-    );
-  }
-}
-
-class leagueTableconfig extends StatelessWidget {
-  const leagueTableconfig({super.key, required this.countProvider});
-
-  final FixconfigVm countProvider;
-
-  @override
-  Widget build(BuildContext context) {
-    return Table(
-      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-      border: TableBorder.all(),
-      children: [
-        TableRow(
-          decoration: BoxDecoration(color: Colors.blueGrey),
-          children: [
-            Center(child: Text('Team')),
-
-            Center(child: Text('PL')),
-            Center(child: Text('WN')),
-            Center(child: Text('DR')),
-            Center(child: Text('LS')),
-            if (countProvider.enableGS = true) Center(child: Text('GS')),
-
-            countProvider.enableGc ? Center(child: Text('GC')) : SizedBox(),
-            countProvider.enableGd ? Center(child: Text('GD')) : SizedBox(),
-            Center(child: Text('PT')),
-          ],
-        ),
-        TableRow(
-          children: [
-            Center(child: Text('barca')),
-            Center(child: Text('3')),
-            Center(child: Text('1')),
-            Center(child: Text('1')),
-
-            Center(child: Text('1')),
-
-            if (countProvider.enableGS = true) Center(child: Text('2')),
-
-            countProvider.enableGc ? Center(child: Text('1')) : SizedBox(),
-            countProvider.enableGd ? Center(child: Text('1')) : SizedBox(),
-            Center(child: Text('4')),
-          ],
-        ),
-      ],
     );
   }
 }

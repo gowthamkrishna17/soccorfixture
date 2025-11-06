@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class Leaguevm extends ChangeNotifier {
-  List<List<String>> _leagueFixture = [];
+  final List<List<String>> _leagueFixture = [];
   List<List<String>> get LeagueFixture => _leagueFixture;
 
   void generateFixture(List<String> teams) {
