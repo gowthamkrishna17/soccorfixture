@@ -1,4 +1,5 @@
 import 'package:fixbuilder/CostomWidget/const_Widget.dart';
+import 'package:fixbuilder/viewModel/fixConfig_vm/calenderVM.dart';
 import 'package:fixbuilder/viewModel/fixConfig_vm/fixConfigVm.dart';
 import 'package:fixbuilder/viewModel/league_vm/leagueTable_vm.dart';
 import 'package:fixbuilder/viewModel/league_vm/leagueVM.dart';
@@ -13,6 +14,7 @@ class LeagueconfigscreenView extends StatelessWidget {
     final fixConfig = Provider.of<FixconfigVm>(context);
     final leagueProvider = Provider.of<Leaguevm>(context);
     final tablevm = context.watch<VmLeagueTable>();
+    final datevm = context.watch<Calendervm>();
 
     // final names = context.read<FixconfigVm>().feild.map((c) => c.text).toList();
     // context.read<LeaguetableVm>().setTeams(names);
@@ -41,7 +43,12 @@ class LeagueconfigscreenView extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Expanded(flex: 1, child: Text('05-03-22')),
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            '${datevm.pickedDate!.day}-${datevm.pickedDate!.month}-${datevm.pickedDate!.year}-${datevm.pickedDate!.weekday}',
+                          ),
+                        ),
                         kverticalDivider,
                         Expanded(
                           flex: 2,

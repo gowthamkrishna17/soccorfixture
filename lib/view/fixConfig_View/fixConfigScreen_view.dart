@@ -4,6 +4,7 @@ import 'package:fixbuilder/CostomWidget/costomButton.dart';
 import 'package:fixbuilder/CostomWidget/costom_textFeild.dart';
 import 'package:fixbuilder/view/LeagueConfig_View/leagueConfigScreen_view.dart';
 import 'package:fixbuilder/view/fixConfig_View/leagueTableconfig.dart';
+import 'package:fixbuilder/viewModel/fixConfig_vm/calenderVM.dart';
 import 'package:fixbuilder/viewModel/fixConfig_vm/fixConfigVm.dart';
 import 'package:fixbuilder/viewModel/league_vm/leagueTable_vm.dart';
 import 'package:fixbuilder/viewModel/league_vm/leagueVM.dart';
@@ -17,6 +18,7 @@ class FixconfigscreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     final countProvider = Provider.of<FixconfigVm>(context);
     final leagueProvider = Provider.of<Leaguevm>(context);
+    final dateVm = context.watch<Calendervm>();
 
     return Scaffold(
       appBar: AppBar(elevation: 1, title: const Text('Create tournament')),
@@ -104,6 +106,14 @@ class FixconfigscreenView extends StatelessWidget {
                     ontap: () {
                       countProvider.togglePosetr();
                     },
+                  ),
+                  InkWell(
+                    onTap: () => dateVm.selectDate(context),
+                    child: Text(
+                      dateVm.pickedDate == null
+                          ? 'select date'
+                          : '${dateVm.pickedDate!.day}-${dateVm.pickedDate!.month}-${dateVm.pickedDate!.year}',
+                    ),
                   ),
                 ],
               ),

@@ -1,19 +1,19 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Calendervm extends ChangeNotifier {
-  DateTime _selectedtime = DateTime.now();
-  DateTime _focusedDay = DateTime.now();
+  DateTime? _pickedDate;
+  DateTime? get pickedDate => _pickedDate;
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? date = await showDatePicker(
+      context: context,
+      firstDate: DateTime.now(),
+      initialDate: DateTime.now(),
+      lastDate: DateTime(2030),
+    );
 
-  DateTime get selectedtime => _selectedtime;
-  DateTime get focusedDay => _focusedDay;
-
-  void updateDateTime(DateTime newDate) {
-    _selectedtime = newDate;
-    notifyListeners();
-  }
-
-  void updateFocus(DateTime focused) {
-    _focusedDay = focused;
-    notifyListeners();
+    if (date != null) {
+      _pickedDate = date;
+      notifyListeners();
+    }
   }
 }
