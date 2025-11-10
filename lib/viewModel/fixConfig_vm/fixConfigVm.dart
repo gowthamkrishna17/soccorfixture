@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class FixconfigVm extends ChangeNotifier {
   TextEditingController teamCount = TextEditingController();
+  TextEditingController tournamentName = TextEditingController();
 
   List<TextEditingController> feild = [];
 
@@ -63,5 +67,18 @@ class FixconfigVm extends ChangeNotifier {
       enblleague = false;
     }
     notifyListeners();
+  }
+  //____________IMAGEPICKER______________________________________________
+
+  File? _pickedImage;
+  File? get pickedImage => _pickedImage;
+  Future<void> pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: source);
+
+    if (image != null) {
+      _pickedImage = File(image.path);
+      notifyListeners();
+    }
   }
 }

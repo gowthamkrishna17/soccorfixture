@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 
 class Livematch extends StatelessWidget {
-  const Livematch({super.key});
+  final String team1;
+  final String team2;
+
+  const Livematch({super.key, required this.team1, required this.team2});
 
   @override
   Widget build(BuildContext context) {
+    print('Team : [$team1, $team2]'); // ✅ should print real names like [yy, kk]
+
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(10),
+      appBar: AppBar(title: Text('Live Match')),
+      body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(child: Row(children: [Text('real'), Text('Real')])),
+            Text('Team 1: $team1'),
+            Text('vs'),
+            Text('Team 2: $team2'),
           ],
         ),
       ),

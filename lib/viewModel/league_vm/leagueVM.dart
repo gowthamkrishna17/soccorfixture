@@ -11,6 +11,8 @@ class Leaguevm extends ChangeNotifier {
         _leagueFixture.add([teams[i], teams[j]]);
       }
     }
+    print('Fixture generated: $_leagueFixture');
+
     notifyListeners();
   }
 

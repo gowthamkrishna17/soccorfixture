@@ -1,14 +1,17 @@
+import 'dart:io';
+
 import 'package:fixbuilder/CostomWidget/constCheckbox.dart';
 import 'package:fixbuilder/CostomWidget/const_Widget.dart';
 import 'package:fixbuilder/CostomWidget/costomButton.dart';
 import 'package:fixbuilder/CostomWidget/costom_textFeild.dart';
-import 'package:fixbuilder/view/LeagueConfig_View/leagueConfigScreen_view.dart';
+import 'package:fixbuilder/view/LeagueConfig_View/league_ConfigScreen_view.dart';
 import 'package:fixbuilder/view/fixConfig_View/leagueTableconfig.dart';
 import 'package:fixbuilder/viewModel/fixConfig_vm/calenderVM.dart';
 import 'package:fixbuilder/viewModel/fixConfig_vm/fixConfigVm.dart';
 import 'package:fixbuilder/viewModel/league_vm/leagueTable_vm.dart';
 import 'package:fixbuilder/viewModel/league_vm/leagueVM.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class FixconfigscreenView extends StatelessWidget {
@@ -36,6 +39,7 @@ class FixconfigscreenView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               TextField(
+                controller: countProvider.tournamentName,
                 decoration: const InputDecoration(
                   label: Text('Tournament nameee'),
                   border: OutlineInputBorder(),
@@ -47,9 +51,28 @@ class FixconfigscreenView extends StatelessWidget {
               countProvider.enbleposter
                   ? Container(
                     height: 170,
+                    width: double.infinity,
                     decoration: BoxDecoration(
+                      image:
+                          countProvider.pickedImage != null
+                              ? DecorationImage(
+                                image: FileImage(countProvider.pickedImage!),
+                                fit: BoxFit.cover,
+                              )
+                              : null,
                       color: Colors.amber,
                       border: Border.all(width: 1),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        countProvider.pickImage(ImageSource.gallery);
+                      },
+                      child: Icon(
+                        Icons.image,
+                        color: Colors.white,
+                        blendMode: BlendMode.colorDodge,
+                        size: 30,
+                      ),
                     ),
                   )
                   : SizedBox(),
@@ -109,10 +132,19 @@ class FixconfigscreenView extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () => dateVm.selectDate(context),
-                    child: Text(
-                      dateVm.pickedDate == null
-                          ? 'select date'
-                          : '${dateVm.pickedDate!.day}-${dateVm.pickedDate!.month}-${dateVm.pickedDate!.year}',
+                    child: Container(
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3),
+                        border: Border.all(width: 1),
+                      ),
+                      child: Center(
+                        child: Text(
+                          dateVm.pickedDate == null
+                              ? 'select date'
+                              : '${dateVm.pickedDate!.day}-${dateVm.pickedDate!.month}-${dateVm.pickedDate!.year}',
+                        ),
+                      ),
                     ),
                   ),
                 ],

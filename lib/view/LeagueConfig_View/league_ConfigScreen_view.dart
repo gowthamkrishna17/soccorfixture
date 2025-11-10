@@ -1,6 +1,7 @@
 import 'package:fixbuilder/CostomWidget/const_Widget.dart';
+import 'package:fixbuilder/view/LeagueConfig_View/liveMatch.dart';
 import 'package:fixbuilder/viewModel/fixConfig_vm/calenderVM.dart';
-import 'package:fixbuilder/viewModel/fixConfig_vm/fixConfigVm.dart';
+// import 'package:fixbuilder/viewModel/fixConfig_vm/fixConfigVm.dart';
 import 'package:fixbuilder/viewModel/league_vm/leagueTable_vm.dart';
 import 'package:fixbuilder/viewModel/league_vm/leagueVM.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class LeagueconfigscreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fixConfig = Provider.of<FixconfigVm>(context);
+    // final fixConfig = Provider.of<FixconfigVm>(context);
     final leagueProvider = Provider.of<Leaguevm>(context);
     final tablevm = context.watch<VmLeagueTable>();
     final datevm = context.watch<Calendervm>();
@@ -25,6 +26,7 @@ class LeagueconfigscreenView extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
+            // Text(fixConfig.tournamentName.text),
             Expanded(
               child: ListView.builder(
                 itemCount: leagueProvider.LeagueFixture.length,
@@ -45,23 +47,47 @@ class LeagueconfigscreenView extends StatelessWidget {
                       children: [
                         Expanded(
                           flex: 1,
-                          child: Text(
-                            '${datevm.pickedDate!.day}-${datevm.pickedDate!.month}-${datevm.pickedDate!.year}-${datevm.pickedDate!.weekday}',
-                          ),
+                          child:
+                              datevm.pickedDate == null
+                                  ? Text('-- / -- /--')
+                                  : Text(
+                                    '${datevm.pickedDate!.day}-${datevm.pickedDate!.month}-${datevm.pickedDate!.year}-${datevm.pickedDate!.weekday}',
+                                  ),
                         ),
                         kverticalDivider,
                         Expanded(
                           flex: 2,
-                          child: Column(
-                            children: [
-                              Text('${match[0]}'),
-                              Container(
-                                height: 1,
-                                width: double.maxFinite,
-                                color: const Color.fromARGB(255, 15, 15, 15),
-                              ),
-                              Text('${match[1]}'),
-                            ],
+                          child: InkWell(
+                            onTap: () {
+                              print(leagueProvider.LeagueFixture);
+
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => Livematch(
+                                        team1: match[0].toString(),
+                                        team2: match[1].toString(),
+                                      ),
+                                ),
+                              );
+                              print(
+                                'Team1: ${match[0]} (${match[0].runtimeType})',
+                              );
+                              print(
+                                'Team2: ${match[1]} (${match[1].runtimeType})',
+                              );
+                            },
+                            child: Column(
+                              children: [
+                                Text(match[0]),
+                                Container(
+                                  height: 1,
+                                  width: double.maxFinite,
+                                  color: const Color.fromARGB(255, 15, 15, 15),
+                                ),
+                                Text(match[1]),
+                              ],
+                            ),
                           ),
                         ),
                         kverticalDivider,
@@ -80,54 +106,15 @@ class LeagueconfigscreenView extends StatelessWidget {
                             ],
                           ),
                         ),
-                        // Text('1'),
-                        // CircleAvatar(radius: 38, child: Text('FH')),
-                        // Text('2'),
                       ],
                     ),
                   );
                 },
               ),
             ),
-            // Container(
-            //   height: 50,
-            //   padding: EdgeInsets.all(10),
-            //   margin: EdgeInsets.all(10),
-            //   decoration: BoxDecoration(
-            //     color: const Color.fromARGB(255, 5, 138, 116),
-            //     border: Border.all(width: 1),
-            //   ),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //     children: [
-            //       Text('Real madrid'),
-            //       Text('1'),
-            //       CircleAvatar(radius: 38, child: Text('FH')),
-            //       Text('2'),
 
-            //       Text('Barcelona'),
-            //     ],
-            //   ),
-            // ),
             constHeight10,
 
-            // Container(
-            //   height: 70,
-            //   padding: EdgeInsets.all(10),
-            //   margin: EdgeInsets.all(10),
-            //   decoration: BoxDecoration(border: Border.all(width: 1)),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //     children: [
-            //       Text('Real madrid'),
-            //       Text('1'),
-            //       Text('15-03-2025\nmonday', textAlign: TextAlign.center),
-            //       Text('2'),
-
-            //       Text('Barcelona'),
-            //     ],
-            //   ),
-            // ),
             Expanded(
               child: Container(
                 padding: const EdgeInsets.all(5),
