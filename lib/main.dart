@@ -3,6 +3,7 @@ import 'package:fixbuilder/viewModel/fixConfig_vm/calenderVM.dart';
 import 'package:fixbuilder/viewModel/fixConfig_vm/fixConfigVm.dart';
 import 'package:fixbuilder/viewModel/league_vm/leagueTable_vm.dart';
 import 'package:fixbuilder/viewModel/league_vm/leagueVM.dart';
+import 'package:fixbuilder/viewModel/league_vm/liveMatchVm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => Leaguevm()),
         ChangeNotifierProvider(create: (context) => VmLeagueTable()),
         ChangeNotifierProvider(create: (context) => Calendervm()),
+        // ChangeNotifierProvider(create: (context) => Livematchvm()),
       ],
       child: const MyApp(),
     ),

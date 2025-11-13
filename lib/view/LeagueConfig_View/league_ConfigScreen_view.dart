@@ -65,6 +65,7 @@ class LeagueconfigscreenView extends StatelessWidget {
                                 MaterialPageRoute(
                                   builder:
                                       (context) => Livematch(
+                                        matchIndex: index,
                                         team1: match[0].toString(),
                                         team2: match[1].toString(),
                                       ),
